@@ -1,4 +1,4 @@
-# Declaración de Uso de Inteligencia Artificial (AI_DECLARATION.md)
+# Declaración de Uso de Inteligencia Artificial
 
 ## 1. Herramientas de Inteligencia Artificial Utilizadas
 - **Herramientas:** Asistente de IA (Gemini / ChatGPT)
