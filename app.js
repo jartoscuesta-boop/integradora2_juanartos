@@ -180,3 +180,123 @@ function resetForm() {
     btnSubmit.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar Tarea';
     btnCancel.style.display = 'none';
 }
+// ==========================================
+// FILTROS, BÚSQUEDA Y ORDENAMIENTO
+// ==========================================
+searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    dispatchTasksChanged();
+});
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentFilter = e.target.getAttribute('data-filter');
+        dispatchTasksChanged();
+    });
+});
+
+sortSelect.addEventListener('change', (e) => {
+    currentSort = e.target.value;
+    dispatchTasksChanged();
+});
+
+// ==========================================
+// RENDERIZADO Y MÉTRICAS (DASHBOARD)
+// ==========================================
+function updateDashboard(currentTasks) {
+    const total = currentTasks.length;
+    const completed = currentTasks.filter(t => t.completed).length;
+    const pending = total - completed;
+
+    metricTotal.textContent = total;
+    metricPending.textContent = pending;
+    metricCompleted.textContent = completed;
+}
+
+function renderTasks(currentTasks) {
+    // 1. Filtrar por Estado
+    let processedTasks = currentTasks.filter(task => {
+        if (currentFilter === 'pending') return !task.completed;
+        if (currentFilter === 'completed') return task.completed;
+        return true;
+    });
+
+    // 2. Búsqueda dinámica en tiempo real (filter, includes, toLowerCase)
+    if (searchQuery) {
+        processedTasks = processedTasks.filter(task => 
+            task.title.toLowerCase().includes(searchQuery)
+        );
+    }
+
+    // 3. Ordenamiento (sort con funciones comparadoras)
+    const priorityWeight = { 'Alta': 3, 'Media': 2, 'Baja': 1 };
+    processedTasks.sort((a, b) => {
+        if (currentSort === 'date-desc') {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        } else if (currentSort === 'date-asc') {
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        } else if (currentSort === 'priority') {
+            return priorityWeight[b.priority] - priorityWeight[a.priority];
+        }
+        return 0;
+    });
+
+    // 4. Renderizar tarjetas en el DOM
+    tasksContainer.innerHTML = '';
+
+    if (processedTasks.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+    }
+
+    emptyState.style.display = 'none';
+
+    processedTasks.forEach(task => {
+        const card = document.createElement('div');
+        card.className = `task-card priority-${task.priority.toLowerCase()} ${task.completed ? 'completed' : ''}`;
+        
+        const dateFormatted = new Date(task.createdAt).toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        card.innerHTML = `
+            <div class="task-info">
+                <div>
+                    <h3 class="task-title">${escapeHTML(task.title)}</h3>
+                    <div class="task-meta">
+                        <span><i class="fa-solid fa-flag"></i> ${task.priority}</span> &bull; 
+                        <span><i class="fa-regular fa-clock"></i> ${dateFormatted}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="task-actions">
+                <button class="action-btn check" onclick="toggleTask('${task.id}')" title="${task.completed ? 'Marcar pendiente' : 'Completar'}">
+                    <i class="fa-solid ${task.completed ? 'fa-rotate-left' : 'fa-check'}"></i>
+                </button>
+                <button class="action-btn edit" onclick="editTask('${task.id}')" title="Editar">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="action-btn delete" onclick="deleteTask('${task.id}')" title="Eliminar">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        `;
+        tasksContainer.appendChild(card);
+    });
+}
+
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+}
+
+// Inicializar al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+});
