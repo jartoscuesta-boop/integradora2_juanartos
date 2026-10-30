@@ -1,17 +1,13 @@
 # Declaración de Uso de Inteligencia Artificial
 
-## 1. Herramientas de Inteligencia Artificial Utilizadas
-- **Herramientas:** Asistente de IA (Gemini / ChatGPT)
-- **Ámbito de aplicación:** Soporte técnico de consulta durante el desarrollo frontend.
+## 1. ¿Qué herramientas de IA utilizó y en qué momentos?
+- **Herramienta:** Asistente de Inteligencia Artificial (Gemini).
+- **Momentos de uso:** Se empleó como apoyo técnico durante las fases de estructuración semántica de las etiquetas HTML/CSS, la revisión de sintaxis en el código JavaScript Vanilla (ES6+), y la conceptualización de la arquitectura basada en eventos (`CustomEvent`).
 
-## 2. Propósito y Momentos de Uso
-La Inteligencia Artificial se empleó estrictamente como un asistente de apoyo técnico en las siguientes áreas:
-1. **Estructuración semántica de etiquetas:** Asesoría en la correcta jerarquía y aplicación de elementos semánticos en HTML5 (como `<header>`, `<section>`, `<footer>`) para asegurar buenas prácticas de desarrollo web.
-2. **Revisión de sintaxis y depuración:** Apoyo en la revisión de sintaxis de JavaScript Vanilla (ES6+) y CSS3, ayudando a identificar errores tipográficos y a validar el flujo del código asíncrono y los eventos personalizados (`CustomEvent`).
-
-## 3. Prompts Clave Utilizados
+## 2. Prompts clave utilizados durante el desarrollo
 1. *"Ayúdame a verificar la estructuración semántica de las etiquetas HTML en la interfaz y revisa si hay errores de sintaxis en el CSS."*
 2. *"Revisa la sintaxis de la lógica en JavaScript Vanilla para el manejo del localStorage y la implementación de CustomEvents."*
 
-## 4. Criterio y Autoría del Estudiante
-Todo el código y la estructura sugeridos por la herramienta de IA fueron analizados, depurados, adaptados e integrados manualmente por el estudiante en el proyecto, garantizando la autoría propia y el dominio completo de la solución implementada.
+## 3. ¿Qué partes del código sugerido por la IA contenían errores o requirieron ajustes manuales para integrarse correctamente a su proyecto?
+- **Selectores del DOM:** Algunas referencias y nombres de clases o IDs sugeridos inicialmente en las funciones de JavaScript no coincidían de forma exacta con los elementos definidos en el `index.html`. Se realizaron ajustes manuales en los selectores (`getElementById`, `querySelector`) para asegurar la vinculación correcta de los eventos y la actualización del DOM.
+- **Mapeo de datos de la API REST:** Los objetos proporcionados por la API pública de prueba (JSONPlaceholder) solo contenían campos básicos de tareas (`userId`, `id`, `title`, `completed`). Fue necesario ajustar manualmente la lógica de integración para mapear esos datos y añadirles propiedades de prioridad (`Alta`, `Media`, `Baja`) y marcas de tiempo (`createdAt`) acordes a los requerimientos de ordenamiento y filtrado de la tarea.
