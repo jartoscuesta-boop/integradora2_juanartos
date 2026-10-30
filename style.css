@@ -310,3 +310,73 @@ body {
     font-size: 3rem;
     margin-bottom: 1rem;
 }
+
+/* ==========================================
+   ESTILOS NUEVOS AL FINAL: Tarjeta Técnica & Footer
+   ========================================== */
+.tech-info-card {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #1e40af;
+    box-shadow: var(--shadow);
+}
+
+.tech-info-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    font-size: 0.95rem;
+    color: #1d4ed8;
+}
+
+.tech-info-card p {
+    color: #3b82f6;
+    line-height: 1.4;
+}
+
+.tech-info-card code {
+    background: #dbeafe;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #1e40af;
+}
+
+.app-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: center;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    transition: color 0.2s;
+}
+
+.github-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}

@@ -15,8 +15,18 @@
         <!-- Header -->
         <header class="app-header">
             <h1><i class="fa-solid fa-list-check"></i> TaskManager Pro</h1>
-            <p>Gestión inteligente de tareas offline con Custom Events</p>
+            <p>Gestión inteligente de tareas offline con Custom Events y API REST</p>
         </header>
+
+        <!-- Panel Informativo Técnico (Opción B: Custom Events) -->
+        <section class="tech-info-card">
+            <div class="tech-info-header">
+                <i class="fa-solid fa-code-branch"></i> Componente Técnico: Opción B (Custom Events / Patrón Observador)
+            </div>
+            <p>
+                Este módulo implementa un sistema de eventos personalizados (<code>CustomEvent</code>) para desacoplar la lógica de datos. Cada operación CRUD o sincronización despacha un evento global (<code>tasksChanged</code>) que desencadena la re-renderización automática del Dashboard y la interfaz.
+            </p>
+        </section>
 
         <!-- Notificaciones Toast -->
         <div id="toast-container"></div>
@@ -71,7 +81,7 @@
             </form>
         </section>
 
-        <!-- Controles: Búsqueda, Filtros y Ordenamiento -->
+        <!-- Controles: Búsqueda, Filtros, Sincronización API y Ordenamiento -->
         <section class="controls-section">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -82,12 +92,17 @@
                 <button class="filter-btn" data-filter="pending">Pendientes</button>
                 <button class="filter-btn" data-filter="completed">Completadas</button>
             </div>
-            <div class="sort-group">
-                <select id="sort-select">
-                    <option value="date-desc">Más recientes</option>
-                    <option value="date-asc">Más antiguas</option>
-                    <option value="priority">Prioridad (Alta a Baja)</option>
-                </select>
+            <div class="actions-group" style="display: flex; gap: 0.5rem; align-items: center;">
+                <button id="btn-sync-api" class="btn secondary" title="Sincronizar con API REST (JSONPlaceholder)" style="padding: 0.75rem 1rem; font-size: 0.85rem;">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> Sincronizar API
+                </button>
+                <div class="sort-group">
+                    <select id="sort-select">
+                        <option value="date-desc">Más recientes</option>
+                        <option value="date-asc">Más antiguas</option>
+                        <option value="priority">Prioridad (Alta a Baja)</option>
+                    </select>
+                </div>
             </div>
         </section>
 
@@ -101,6 +116,17 @@
                 <p>No se encontraron tareas registradas.</p>
             </div>
         </section>
+
+        <!-- Footer del Estudiante y Repositorio -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p><strong>Estudiante:</strong> Juan Carlos Artos Cuesta</p>
+                <p>Ingeniería en Sistemas Inteligentes | Programación de Sistemas Web</p>
+                <a href="https://github.com/jartoscuesta-boop/" target="_blank" class="github-link">
+                    <i class="fa-brands fa-github"></i> Visitar Repositorio en GitHub
+                </a>
+            </div>
+        </footer>
     </div>
 
     <script src="app.js"></script>
