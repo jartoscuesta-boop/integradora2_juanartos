@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskManager Pro | Integradora II</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1><i class="fa-solid fa-list-check"></i> TaskManager Pro</h1>
+            <p>Gestión inteligente de tareas offline con Custom Events</p>
+        </header>
+
+        <!-- Notificaciones Toast -->
+        <div id="toast-container"></div>
+
+        <!-- Dashboard / Métricas -->
+        <section class="dashboard">
+            <div class="card-metric">
+                <i class="fa-solid fa-layer-group"></i>
+                <div>
+                    <span id="metric-total" class="number">0</span>
+                    <span class="label">Total Tareas</span>
+                </div>
+            </div>
+            <div class="card-metric warning">
+                <i class="fa-solid fa-clock"></i>
+                <div>
+                    <span id="metric-pending" class="number">0</span>
+                    <span class="label">Pendientes</span>
+                </div>
+            </div>
+            <div class="card-metric success">
+                <i class="fa-solid fa-circle-check"></i>
+                <div>
+                    <span id="metric-completed" class="number">0</span>
+                    <span class="label">Completadas</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulario CRUD -->
+        <section class="form-section">
+            <form id="task-form">
+                <input type="hidden" id="task-id">
+                <div class="form-group">
+                    <input type="text" id="task-title" placeholder="¿Qué tarea deseas realizar?" autocomplete="off">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <select id="task-priority">
+                            <option value="Alta">Prioridad Alta</option>
+                            <option value="Media" selected>Prioridad Media</option>
+                            <option value="Baja">Prioridad Baja</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="btn-submit" class="btn primary">
+                        <i class="fa-solid fa-plus"></i> Agregar Tarea
+                    </button>
+                    <button type="button" id="btn-cancel" class="btn secondary" style="display: none;">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Controles: Búsqueda, Filtros y Ordenamiento -->
+        <section class="controls-section">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-input" placeholder="Buscar tarea por título...">
+            </div>
+            <div class="filters-group">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="pending">Pendientes</button>
+                <button class="filter-btn" data-filter="completed">Completadas</button>
+            </div>
+            <div class="sort-group">
+                <select id="sort-select">
+                    <option value="date-desc">Más recientes</option>
+                    <option value="date-asc">Más antiguas</option>
+                    <option value="priority">Prioridad (Alta a Baja)</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Lista de Tareas -->
+        <section class="tasks-section">
+            <div id="tasks-container" class="tasks-grid">
+                <!-- Las tareas se renderizan dinámicamente aquí -->
+            </div>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <p>No se encontraron tareas registradas.</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
