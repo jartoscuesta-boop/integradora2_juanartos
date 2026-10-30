@@ -40,3 +40,48 @@ function showToast(message, type = 'success') {
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
+// ==========================================
+// PERSISTENCIA Y API REST
+// ==========================================
+async function initApp() {
+    const localData = localStorage.getItem('tasks');
+
+    if (localData) {
+        tasks = JSON.parse(localData);
+        dispatchTasksChanged();
+        showToast('Tareas cargadas desde el almacenamiento local.', 'success');
+    } else {
+        await fetchApiTasks();
+    }
+}
+
+async function fetchApiTasks() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Error al conectar con la API REST');
+
+        const apiData = await response.json();
+        
+        // Mapear datos de JSONPlaceholder a nuestra estructura con prioridades y fechas
+        tasks = apiData.map(item => ({
+            id: 'api-' + item.id,
+            title: item.title,
+            completed: item.completed,
+            priority: ['Alta', 'Media', 'Baja'][Math.floor(Math.random() * 3)],
+            createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000)).toISOString()
+        }));
+
+        saveToLocalStorageWithoutDispatch();
+        dispatchTasksChanged();
+        showToast('Tareas sincronizadas desde JSONPlaceholder con éxito.', 'success');
+    } catch (error) {
+        console.error(error);
+        showToast('Fallo de red al consultar la API. Trabajando en modo local.', 'error');
+        tasks = [];
+        dispatchTasksChanged();
+    }
+}
+
+function saveToLocalStorageWithoutDispatch() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
