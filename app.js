@@ -102,3 +102,81 @@ document.addEventListener('tasksChanged', (e) => {
     updateDashboard(currentTasks);
     renderTasks(currentTasks);
 });
+// ==========================================
+// GESTIÓN DE CRUD Y EVENTOS DEL DOM
+// ==========================================
+taskForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = taskTitleInput.value.trim();
+    const priority = taskPrioritySelect.value;
+    const id = taskIdInput.value;
+
+    // Validación estricta de campos vacíos desde JS
+    if (!title) {
+        showToast('Por favor, ingresa el título de la tarea.', 'error');
+        taskTitleInput.focus();
+        return;
+    }
+
+    if (id) {
+        // Editar tarea existente
+        tasks = tasks.map(task => 
+            task.id === id ? { ...task, title, priority } : task
+        );
+        showToast('¡Tarea actualizada correctamente!');
+        resetForm();
+    } else {
+        // Crear nueva tarea
+        const newTask = {
+            id: 'task-' + Date.now(),
+            title,
+            completed: false,
+            priority,
+            createdAt: new Date().toISOString()
+        };
+        tasks.unshift(newTask);
+        showToast('¡Tarea creada con éxito!');
+        taskForm.reset();
+    }
+
+    dispatchTasksChanged();
+});
+
+// Funciones globales accesibles para las tarjetas de tareas
+window.toggleTask = function(id) {
+    tasks = tasks.map(task => 
+        task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    dispatchTasksChanged();
+};
+
+window.editTask = function(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+        taskIdInput.value = task.id;
+        taskTitleInput.value = task.title;
+        taskPrioritySelect.value = task.priority;
+        btnSubmit.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar Cambios';
+        btnCancel.style.display = 'inline-flex';
+        taskTitleInput.focus();
+    }
+};
+
+window.deleteTask = function(id) {
+    if (confirm('¿Estás seguro de eliminar esta tarea?')) {
+        tasks = tasks.filter(task => task.id !== id);
+        showToast('Tarea eliminada.');
+        dispatchTasksChanged();
+    }
+};
+
+btnCancel.addEventListener('click', () => {
+    resetForm();
+});
+
+function resetForm() {
+    taskIdInput.value = '';
+    taskForm.reset();
+    btnSubmit.innerHTML = '<i class="fa-solid fa-plus"></i> Agregar Tarea';
+    btnCancel.style.display = 'none';
+}
