@@ -85,3 +85,20 @@ async function fetchApiTasks() {
 function saveToLocalStorageWithoutDispatch() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
+// ==========================================
+// PATRÓN OBSERVER / CUSTOM EVENTS (Opción B)
+// ==========================================
+function dispatchTasksChanged() {
+    saveToLocalStorageWithoutDispatch();
+    const event = new CustomEvent('tasksChanged', {
+        detail: { tasks: tasks }
+    });
+    document.dispatchEvent(event);
+}
+
+// Escuchador centralizado del evento personalizado para re-renderizado automático
+document.addEventListener('tasksChanged', (e) => {
+    const currentTasks = e.detail.tasks;
+    updateDashboard(currentTasks);
+    renderTasks(currentTasks);
+});
